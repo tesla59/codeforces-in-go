@@ -37,7 +37,7 @@ func print(x ...any) {
 }
 
 func printSlice(s []int) {
-    fmt.Println(strings.Trim(fmt.Sprint(s), "[]"))
+	fmt.Println(strings.Trim(fmt.Sprint(s), "[]"))
 }
 
 func max(x ...int) int {
@@ -58,6 +58,18 @@ func min(x ...int) int {
 		}
 	}
 	return x[mi]
+}
+
+func GCD(x, y int) int {
+	x, y = abs(x), abs(y)
+	for y != 0 {
+		x, y = y, x%y
+	}
+	return x
+}
+
+func LCM(x, y int) int {
+	return abs(x*y) / GCD(x, y)
 }
 
 func sum(x ...int) int {
