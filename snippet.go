@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 var in, out = bufio.NewReader(os.Stdin), bufio.NewWriter(os.Stdout)
@@ -33,6 +34,10 @@ func readStr() string {
 
 func print(x ...any) {
 	fmt.Fprintln(out, x...)
+}
+
+func printSlice(s []int) {
+    fmt.Println(strings.Trim(fmt.Sprint(s), "[]"))
 }
 
 func max(x ...int) int {
