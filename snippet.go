@@ -7,6 +7,10 @@ import (
 	"strings"
 )
 
+const (
+	MAXINT = int(^uint(0) >> 1)
+)
+
 var in, out = bufio.NewReader(os.Stdin), bufio.NewWriter(os.Stdout)
 
 func solve() {
