@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"sort"
 )
 
 var in, out = bufio.NewReader(os.Stdin), bufio.NewWriter(os.Stdout)
@@ -30,20 +29,6 @@ func readStr() string {
 	var x string
 	fmt.Fscan(in, &x)
 	return x
-}
-
-func readArr(x ...int) (int, []int) {
-	var n int
-	if len(x) == 0 {
-		fmt.Fscan(in, &n)
-	} else {
-		n = x[0]
-	}
-	var v = make([]int, n)
-	for i := 0; i < n; i++ {
-		fmt.Fscan(in, &v[i])
-	}
-	return n, v
 }
 
 func print(x ...any) {
@@ -85,14 +70,6 @@ func abs(x int) int {
 	return x
 }
 
-func sortStr(x string) string {
-	r := []rune(x)
-	sort.Slice(r, func(i, j int) bool {
-		return r[i] < r[j]
-	})
-	return string(r)
-}
-
 func reverseInts(x []int) {
 	n := len(x)
 	for i := 0; i < n/2; i++ {
@@ -107,12 +84,4 @@ func reverseStr(s string) string {
 		x[i], x[n-1-i] = x[n-1-i], x[i]
 	}
 	return string(x)
-}
-
-func _makeMatrix(n, m int) [][]int {
-	x := make([][]int, n)
-	for i := range x {
-		x[i] = make([]int, m)
-	}
-	return x
 }
