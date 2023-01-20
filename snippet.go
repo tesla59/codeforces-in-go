@@ -36,6 +36,20 @@ func readStr() string {
 	return x
 }
 
+func readArr(x ...int) (int, []int) {
+	var n int
+	if len(x) == 0 {
+		fmt.Fscan(in, &n)
+	} else {
+		n = x[0]
+	}
+	var v = make([]int, n)
+	for i := 0; i < n; i++ {
+		fmt.Fscan(in, &v[i])
+	}
+	return n, v
+}
+
 func print(x ...any) {
 	fmt.Fprintln(out, x...)
 }
