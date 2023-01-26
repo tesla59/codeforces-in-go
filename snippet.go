@@ -55,7 +55,7 @@ func print(x ...any) {
 }
 
 func printSlice(s []int) {
-	fmt.Println(strings.Trim(fmt.Sprint(s), "[]"))
+	fmt.Fprintln(out, strings.Trim(fmt.Sprint(s), "[]"))
 }
 
 func max(x ...int) int {
