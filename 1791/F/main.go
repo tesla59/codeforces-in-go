@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"sort"
 	"strings"
 )
 
@@ -15,25 +14,34 @@ const (
 var in, out = bufio.NewReader(os.Stdin), bufio.NewWriter(os.Stdout)
 
 func solve() {
-	n, c := readInt(), readInt()
+	n, q := readInt(), readInt()
 	_, a := readArr(n)
-	costArray := make([]int, n)
-	for i := 0; i < n; i++ {
-		// costArray = append(costArray, a[i]+i+1)
-		costArray[i] = a[i] + i + 1
-	}
-	count := 0
-	sort.Ints(costArray)
-	for i := range costArray {
-		if c > 0 {
-			c -= costArray[i]
-			count++
+	m := make(map[int]int)
+	for i := 0; i < q; i++ {
+		qry := readInt()
+		if qry == 2 {
+			idx := readInt()
+			print(a[idx-1])
+		}
+		if qry == 1 {
+			l, r := readInt(), readInt()
+			for j := l - 1; j < r; j++ {
+				if m[j] <= 2 {
+					a[j] = sumOfDigits(a[j])
+					m[j]++
+				}
+			}
 		}
 	}
-	if c < 0 {
-		count--
+}
+
+func sumOfDigits(n int) int {
+	sum := 0
+	for n > 0 {
+		sum += n % 10
+		n /= 10
 	}
-	print(count)
+	return sum
 }
 
 func main() {
