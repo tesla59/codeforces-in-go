@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strings"
 )
 
@@ -119,4 +120,12 @@ func reverseStr(s string) string {
 		x[i], x[n-1-i] = x[n-1-i], x[i]
 	}
 	return string(x)
+}
+
+func binarySearch(arr []int, target int) int {
+    index := sort.Search(len(arr), func(i int) bool { return arr[i] >= target })
+    if index < len(arr) && arr[index] == target {
+        return index
+    }
+    return -1
 }
