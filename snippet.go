@@ -123,9 +123,9 @@ func reverseStr(s string) string {
 }
 
 func binarySearch(arr []int, target int) int {
-    index := sort.Search(len(arr), func(i int) bool { return arr[i] >= target })
-    if index < len(arr) && arr[index] == target {
-        return index
-    }
-    return -1
+	index := sort.Search(len(arr), func(i int) bool { return arr[i] >= target })
+	if index < len(arr) && arr[index] == target {
+		return index
+	}
+	return -1
 }
