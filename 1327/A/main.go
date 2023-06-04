@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"sort"
 	"strings"
@@ -16,22 +17,26 @@ var in, out = bufio.NewReader(os.Stdin), bufio.NewWriter(os.Stdout)
 
 func solve() {
 	n, k := readInt(), readInt()
-	/*
-		even even true
-		even odd  true
-		odd  even false
-		odd  odd  true
-	*/
-	if n%2 == 0 {
-		print("YES")
-	} else {
-		if k%2 == 0 {
+	if k <= int(math.Sqrt(float64(n))) {
+		if xnor(isEven(n), isEven(k)) {
 			print("YES")
 		} else {
 			print("NO")
 		}
+	} else {
+		print("NO")
 	}
-	// print(n, k)
+}
+
+func xnor(a, b bool) bool {
+	return (a && b) || (!a && !b)
+}
+
+func isEven(n int) bool {
+	if n&1 == 1 {
+		return false
+	}
+	return true
 }
 
 func main() {
