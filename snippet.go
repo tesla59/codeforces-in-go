@@ -25,6 +25,17 @@ func main() {
 	}
 }
 
+type Number interface {
+    int | int8 | int16 | int32 | int64 |
+    uint | uint8 | uint16 | uint32 | uint64 |
+    float32 | float64
+}
+
+type Integer interface {
+    int | int8 | int16 | int32 | int64 |
+    uint | uint8 | uint16 | uint32 | uint64
+}
+
 func readInt() int {
 	var x int
 	fmt.Fscan(in, &x)
@@ -37,15 +48,15 @@ func readStr() string {
 	return x
 }
 
-func readArr(x ...int) (int, []int) {
-	var n int
+func readArr[T Integer](x ...T) (T, []T) {
+	var n T
 	if len(x) == 0 {
 		fmt.Fscan(in, &n)
 	} else {
 		n = x[0]
 	}
-	var v = make([]int, n)
-	for i := 0; i < n; i++ {
+	var v = make([]T, n)
+	for i := T(0); i < n; i++ {
 		fmt.Fscan(in, &v[i])
 	}
 	return n, v
@@ -55,11 +66,11 @@ func print(x ...any) {
 	fmt.Fprintln(out, x...)
 }
 
-func printSlice(s []int) {
+func printSlice[T Number](s []T) {
 	fmt.Fprintln(out, strings.Trim(fmt.Sprint(s), "[]"))
 }
 
-func max(x ...int) int {
+func max[T Number](x ...T) T {
 	mi := 0
 	for i := 1; i < len(x); i++ {
 		if x[i] > x[mi] {
@@ -69,7 +80,7 @@ func max(x ...int) int {
 	return x[mi]
 }
 
-func min(x ...int) int {
+func min[T Number](x ...T) T {
 	mi := 0
 	for i := 1; i < len(x); i++ {
 		if x[i] < x[mi] {
@@ -79,7 +90,7 @@ func min(x ...int) int {
 	return x[mi]
 }
 
-func GCD(x, y int) int {
+func GCD[T Integer](x, y T) T {
 	x, y = abs(x), abs(y)
 	for y != 0 {
 		x, y = y, x%y
@@ -87,19 +98,19 @@ func GCD(x, y int) int {
 	return x
 }
 
-func LCM(x, y int) int {
+func LCM[T Integer](x, y T) T {
 	return abs(x*y) / GCD(x, y)
 }
 
-func sum(x ...int) int {
-	res := 0
+func sum[T Number](x ...T) T {
+	res := T(0)
 	for _, i := range x {
 		res += i
 	}
 	return res
 }
 
-func abs(x int) int {
+func abs[T Number](x T) T {
 	if x < 0 {
 		return -x
 	}
@@ -122,7 +133,7 @@ func reverseStr(s string) string {
 	return string(x)
 }
 
-func binarySearch(arr []int, target int) int {
+func binarySearch[T Number](arr []T, target T) int {
 	index := sort.Search(len(arr), func(i int) bool { return arr[i] >= target })
 	if index < len(arr) && arr[index] == target {
 		return index
