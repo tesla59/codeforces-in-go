@@ -2,141 +2,126 @@ package main
 
 import (
 	"bufio"
+	"cmp"
 	"fmt"
+	"math"
 	"os"
-	"sort"
-	"strings"
+	"slices"
+	"strconv"
 )
 
 const (
-	MAXINT = int(^uint(0) >> 1)
+	MaxInt = math.MaxInt
+	MinInt = math.MinInt
 )
 
-var in, out = bufio.NewReader(os.Stdin), bufio.NewWriter(os.Stdout)
-
-func solve() {
-}
-
-func main() {
-	defer out.Flush()
-	var t int
-	for fmt.Fscanln(in, &t); t > 0; t-- {
-		solve()
-	}
-}
-
-type Number interface {
-    int | int8 | int16 | int32 | int64 |
-    uint | uint8 | uint16 | uint32 | uint64 |
-    float32 | float64
-}
-
 type Integer interface {
-    int | int8 | int16 | int32 | int64 |
-    uint | uint8 | uint16 | uint32 | uint64
+	~int | ~int8 | ~int16 | ~int32 | ~int64 |
+		~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64
+}
+
+type Real interface {
+	Integer | ~float32 | ~float64
+}
+
+var (
+	in  = bufio.NewScanner(os.Stdin)
+	out = bufio.NewWriter(os.Stdout)
+)
+
+func init() {
+	in.Split(bufio.ScanWords)
+	const maxBuf = 1024 * 1024
+	in.Buffer(make([]byte, maxBuf), maxBuf)
 }
 
 func readInt() int {
-	var x int
-	fmt.Fscan(in, &x)
+	in.Scan()
+	x, _ := strconv.Atoi(in.Text())
+	return x
+}
+
+func readInt64() int64 {
+	in.Scan()
+	x, _ := strconv.ParseInt(in.Text(), 10, 64)
 	return x
 }
 
 func readStr() string {
-	var x string
-	fmt.Fscan(in, &x)
-	return x
+	in.Scan()
+	return in.Text()
 }
 
-func readArr[T Integer](x ...T) (T, []T) {
-	var n T
-	if len(x) == 0 {
-		fmt.Fscan(in, &n)
-	} else {
-		n = x[0]
+func readSlice(n int) []int {
+	v := make([]int, n)
+	for i := range n {
+		v[i] = readInt()
 	}
-	var v = make([]T, n)
-	for i := T(0); i < n; i++ {
-		fmt.Fscan(in, &v[i])
-	}
-	return n, v
+	return v
 }
 
-func print(x ...any) {
-	fmt.Fprintln(out, x...)
+func print(args ...any) {
+	fmt.Fprint(out, args...)
 }
 
-func printSlice[T Number](s []T) {
-	fmt.Fprintln(out, strings.Trim(fmt.Sprint(s), "[]"))
+func println(args ...any) {
+	fmt.Fprintln(out, args...)
 }
 
-func max[T Number](x ...T) T {
-	mi := 0
-	for i := 1; i < len(x); i++ {
-		if x[i] > x[mi] {
-			mi = i
+func printSlice[T any](s []T) {
+	for i, v := range s {
+		if i > 0 {
+			out.WriteByte(' ')
 		}
+		fmt.Fprint(out, v)
 	}
-	return x[mi]
+	out.WriteByte('\n')
 }
 
-func min[T Number](x ...T) T {
-	mi := 0
-	for i := 1; i < len(x); i++ {
-		if x[i] < x[mi] {
-			mi = i
-		}
-	}
-	return x[mi]
-}
-
-func GCD[T Integer](x, y T) T {
-	x, y = abs(x), abs(y)
-	for y != 0 {
-		x, y = y, x%y
-	}
-	return x
-}
-
-func LCM[T Integer](x, y T) T {
-	return abs(x*y) / GCD(x, y)
-}
-
-func sum[T Number](x ...T) T {
-	res := T(0)
-	for _, i := range x {
-		res += i
-	}
-	return res
-}
-
-func abs[T Number](x T) T {
+func abs[T Real](x T) T {
 	if x < 0 {
 		return -x
 	}
 	return x
 }
 
-func reverseInts(x []int) {
-	n := len(x)
-	for i := 0; i < n/2; i++ {
-		x[i], x[n-1-i] = x[n-1-i], x[i]
+func gcd[T Integer](a, b T) T {
+	a, b = abs(a), abs(b)
+	for b != 0 {
+		a, b = b, a%b
 	}
+	return a
 }
 
-func reverseStr(s string) string {
-	x := []rune(s)
-	n := len(x)
-	for i := 0; i < n/2; i++ {
-		x[i], x[n-1-i] = x[n-1-i], x[i]
-	}
-	return string(x)
+func lcm[T Integer](a, b T) T {
+	return abs(a/gcd(a, b) * b)
 }
 
-func binarySearch[T Number](arr []T, target T) int {
-	index := sort.Search(len(arr), func(i int) bool { return arr[i] >= target })
-	if index < len(arr) && arr[index] == target {
-		return index
+func reverseSlice[T any](s []T) {
+	slices.Reverse(s)
+}
+
+func sortSlice[T cmp.Ordered](s []T) {
+	slices.Sort(s)
+}
+
+func binarySearch[T cmp.Ordered](s []T, target T) int {
+	idx, found := slices.BinarySearch(s, target)
+	if found {
+		return idx
 	}
 	return -1
+}
+
+func solve() {
+}
+
+func main() {
+	defer out.Flush()
+	t := 1
+	// if multiple test cases:
+	// t = readInt()
+	for ; t > 0; t-- {
+		solve()
+	}
 }
