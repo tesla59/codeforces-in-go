@@ -9,6 +9,14 @@ Solutions to problem sets on [Codeforces](https://codeforces.com/) in Go.
 ```
 Example: `1700-1799/1791/A/main.go`
 
+## Creating a New Solution
+
+```bash
+./init_problem.sh https://codeforces.com/problemset/problem/69/A
+# or shorthand:
+./init_problem.sh 69 A
+```
+
 ## Running a Solution
 
 ```bash
