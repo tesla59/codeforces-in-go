@@ -27,6 +27,8 @@ type Real interface {
 var (
 	in  = bufio.NewScanner(os.Stdin)
 	out = bufio.NewWriter(os.Stdout)
+	_   = slices.Sort[[]int]
+	_   = cmp.Compare[int]
 )
 
 func init() {
@@ -94,23 +96,7 @@ func gcd[T Integer](a, b T) T {
 }
 
 func lcm[T Integer](a, b T) T {
-	return abs(a/gcd(a, b) * b)
-}
-
-func reverseSlice[T any](s []T) {
-	slices.Reverse(s)
-}
-
-func sortSlice[T cmp.Ordered](s []T) {
-	slices.Sort(s)
-}
-
-func binarySearch[T cmp.Ordered](s []T, target T) int {
-	idx, found := slices.BinarySearch(s, target)
-	if found {
-		return idx
-	}
-	return -1
+	return abs(a / gcd(a, b) * b)
 }
 
 func solve() {
