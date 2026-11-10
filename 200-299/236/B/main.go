@@ -104,29 +104,49 @@ func lcm[T Integer](a, b T) T {
 func solve() {
 	a, b, c := readInt(), readInt(), readInt()
 	sum := 0
-	freq := make(map[int]int)
+
+	// Textbook approach
+	MAX := 10_000_00
+	sieve := make([]uint8, MAX+1) // uint to decreased memory usage
+	for i := 1; i <= MAX; i++ {
+		for j := i; j <= MAX; j += i {
+			sieve[j]++
+		}
+	}
+
 	for i := range a {
 		for j := range b {
 			for k := range c {
 				n := (i + 1) * (j + 1) * (k + 1)
-				if l, ok := freq[n]; ok {
-					sum += l
-				} else {
-					local := 0
-					for l := 1; l*l <= n; l++ {
-						if n%l == 0 {
-							local++
-							if n/l != l {
-								local++
-							}
-						}
-					}
-					sum += local
-					freq[n] = local
-				}
+				sum += int(sieve[n])
 			}
 		}
 	}
+
+	// Self made approach
+	// freq := make(map[int]int)
+	// for i := range a {
+	// 	for j := range b {
+	// 		for k := range c {
+	// 			n := (i + 1) * (j + 1) * (k + 1)
+	// 			if l, ok := freq[n]; ok {
+	// 				sum += l
+	// 			} else {
+	// 				local := 0
+	// 				for l := 1; l*l <= n; l++ {
+	// 					if n%l == 0 {
+	// 						local++
+	// 						if n/l != l {
+	// 							local++
+	// 						}
+	// 					}
+	// 				}
+	// 				sum += local
+	// 				freq[n] = local
+	// 			}
+	// 		}
+	// 	}
+	// }
 
 	println(sum)
 }
