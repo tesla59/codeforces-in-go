@@ -9,7 +9,6 @@ import (
 	"math"
 	"os"
 	"slices"
-	"sort"
 	"strconv"
 )
 
@@ -104,11 +103,27 @@ func lcm[T Integer](a, b T) T {
 
 func solve() {
 	x := readInt()
-	println(sort.Search(2_000_000_000, func(i int) bool {
-		a := (i + 2) / 3
-		c := i - a
-		return (a*(c+1) - a*(a-1)/2) >= x
-	}))
+	// Math approach
+	// println(sort.Search(2_000_000_000, func(i int) bool {
+	// 	a := (i + 2) / 3
+	// 	c := i - a
+	// 	return (a*(c+1) - a*(a-1)/2) >= x
+	// }))
+
+	// Brute Force
+	ans := MaxInt
+	for c := 0; c <= x; c++ {
+		currentPower := c + 1
+		attacks := 0
+		health := x
+		for health > 0 {
+			health -= currentPower
+			attacks++
+			currentPower = max(currentPower-1, 1)
+		}
+		ans = min(ans, attacks+c)
+	}
+	println(ans)
 }
 
 func main() {
