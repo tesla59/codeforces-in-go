@@ -104,15 +104,11 @@ func lcm[T Integer](a, b T) T {
 func solve() {
 	x := readStr()
 	pass := 0
-	for {
-		if len(x) == 1 {
-			break
-		}
+	for len(x) > 1 {
 		pass++
 		currentSum := 0
 		for i := range x {
-			a, _ := strconv.Atoi(string(x[i]))
-			currentSum += a
+			currentSum += int(x[i] - '0')
 		}
 		x = strconv.Itoa(currentSum)
 	}
